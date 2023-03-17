@@ -16,7 +16,7 @@ def contact(request):
 
 
 def course(request):
-    return render(request, "AppEdukate/course.html")
+    return render(request, "AppEdukate/courses.html")
 
 
 def courses(request):
