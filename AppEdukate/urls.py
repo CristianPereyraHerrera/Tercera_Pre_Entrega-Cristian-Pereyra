@@ -1,30 +1,28 @@
 from django.urls import path
-from django.views.generic import TemplateView
-from AppEdukate.views import courses, students, teachers
+from AppEdukate.views import index, about, detail, feature, team, testimonial, contact, courses, students, teachers, \
+    search_courses, search_students, search_teachers, form_courses, form_students, form_teachers, courses_avaibles
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
-    path('about/', TemplateView.as_view(template_name='AppEdukate/about.html'), name='about'),
-    path('course/', TemplateView.as_view(template_name='AppEdukate/courses.html'), name='course'),
-    path('detail/', TemplateView.as_view(template_name='AppEdukate/detail.html'), name='detail'),
-    path('feature/', TemplateView.as_view(template_name='AppEdukate/feature.html'), name='feature'),
-    path('team/', TemplateView.as_view(template_name='AppEdukate/team.html'), name='team'),
-    path('testimonial/', TemplateView.as_view(template_name='AppEdukate/testimonial.html'), name='testimonial'),
-    path('contact/', TemplateView.as_view(template_name='AppEdukate/contact.html'), name='contact'),
+    path('', index, name="AppEdukateIndex"),
+    path('about/', about, name="AppEdukateAbout"),
+    path('detail/', detail, name="AppEdukateDetail"),
+    path('feature/', feature, name="AppEdukateFeature"),
+    path('team/', team, name="AppEdukateTeam"),
+    path('testimonial/', testimonial, name="AppEdukateTestimonial"),
+    path('contact/', contact, name="AppEdukateContact"),
 
-    path('search_courses/', TemplateView.as_view(template_name='AppEdukate/search_courses.html'), name='search_courses'),
-    path('search_students/', TemplateView.as_view(template_name='AppEdukate/search_students.html'), name='search_students'),
-    path('search_teachers/', TemplateView.as_view(template_name='AppEdukate/search_teachers.html'), name='search_teachers'),
+    path('courses/', courses, name="AppEdukateCourses"),
+    path('students/', students, name="AppEdukateStudents"),
+    path('teachers/', teachers, name="AppEdukateTeachers"),
 
-    path('form_courses/', TemplateView.as_view(template_name='AppEdukate/form_courses.html'), name='form_courses'),
-    path('form_students/', TemplateView.as_view(template_name='AppEdukate/form_students.html'), name='form_students'),
-    path('form_teachers/', TemplateView.as_view(template_name='AppEdukate/form_teachers.html'), name='form_teachers'),
+    path('search_courses/', search_courses, name="AppEdukateSearchCourses"),
+    path('search_students/', search_students, name="AppEdukateSearchStudents"),
+    path('search_teachers/', search_teachers, name="AppEdukateSearchTeachers"),
 
-    path('courses', courses, name="AppEdukateCourses"),
-    path('students', students, name="AppEdukateStudents"),
-    path('teachers', teachers, name="AppEdukateTeachers"),
+    path('form_courses/', form_courses, name="AppEdukateFormCourses"),
+    path('form_students/', form_students, name="AppEdukateFormStudents"),
+    path('form_teachers/', form_teachers, name="AppEdukateFormTeachers"),
 
+    path('courses_avaibles/', courses_avaibles, name="AppEdukateCoursesAvaibles"),
 ]
-
-

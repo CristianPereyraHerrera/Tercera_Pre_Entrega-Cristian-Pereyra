@@ -7,7 +7,7 @@ class Course(models.Model):
     commission = models.IntegerField(unique=True)
 
     def __str__(self):
-        return f"Curso: {self.name} {self.commission}"
+        return f"Course: {self.name} {self.commission}"
 
 
 class Delivery(models.Model):
