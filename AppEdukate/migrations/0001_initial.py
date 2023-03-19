@@ -20,15 +20,15 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Delivery',
+            name='Assignment',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=30)),
                 ('last_name', models.CharField(max_length=30)),
                 ('course', models.CharField(max_length=30)),
                 ('commission', models.IntegerField(unique=True)),
-                ('delivery_date', models.DateField()),
-                ('delivered', models.BooleanField()),
+                ('assignment_date', models.DateField()),
+                ('assignment', models.BooleanField()),
             ],
         ),
         migrations.CreateModel(

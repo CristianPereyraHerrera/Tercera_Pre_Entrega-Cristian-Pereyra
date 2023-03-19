@@ -10,17 +10,17 @@ class Course(models.Model):
         return f"Course: {self.name} ----- Commission: {self.commission}"
 
 
-class Delivery(models.Model):
+class Assignment(models.Model):
     name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     course = models.CharField(max_length=30)
-    commission = models.IntegerField(unique=True)
-    delivery_date = models.DateField()
-    delivered = models.BooleanField()
+    commission = models.IntegerField()
+    assignment_date = models.DateField()
+    assignment = models.BooleanField()
 
     def __str__(self):
-        return f"Delivery: {self.name} {self.last_name} ----- Course: {self.course} ----- Commission: {self.commission}" \
-               f" ----- Delyvered the day: {self.delivery_date} ----- Delyvery: {self.delivered}"
+        return f"Assignment: {self.name} {self.last_name} ----- Course: {self.course} ----- Commission: {self.commission}" \
+               f" ----- Assignment the day: {self.assignment_date} ----- Assignment: {self.assignment}"
 
 
 class Student(models.Model):

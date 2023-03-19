@@ -46,7 +46,7 @@
                                     <a href="{% url 'AppEdukateFormStudents' %}" class="dropdown-menu-lg-left">New Student</a>
                                 </div>
                                 <div>
-                                    <a href="{% url 'AppEdukateFormDelivery' %}" class="dropdown-menu-lg-left">Delivery</a>
+                                    <a href="{% url 'AppEdukateFormAssignments' %}" class="dropdown-menu-lg-left">Assignment</a>
                                 </div>
                             </div>
                             <a class="nav-link dropdown-menu-left dropdown-toggle" style="color: black" data-toggle="dropdown">Teachers</a>
@@ -70,17 +70,17 @@
 {% block Header %}
     <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
         <div class="container text-center py-5">
-            <h1 class="text-white display-1">Submit Deliverable</h1>
+            <h1 class="text-white display-1">Submit Assignments</h1>
             <div class="d-inline-flex text-white mb-5">
                 <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'AppEdukateIndex' %}">Home</a></p>
                 <i class="fa fa-angle-double-right pt-1 px-3"></i>
-                <p class="m-0 text-uppercase">Submit Deliverable</p>
+                <p class="m-0 text-uppercase">Submit Assignments</p>
                 </div>
             {% block successful_uploaded %}
                 {% if my_form.errors %}
                     <p style="color:#940f29;">Incorrect Data, Check Again</p>
                 {% endif %}
-                <form action="{% url 'AppEdukateFormDelivery' %}" method="POST">{% csrf_token %}
+                <form action="{% url 'AppEdukateFormAssignments' %}" method="POST">{% csrf_token %}
                     <div class="mx-auto mb-5" style="width: 100%; max-width: 60%;">
                         <div class="mx-auto mb-5 d-flex flex-column align-items-center" style="width: 100%; max-width: 60%;">
                             <div class="input-group">
@@ -92,11 +92,12 @@
                                         <div class="input-group">
                                             <input type="number" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Commission" id="search-input-4" name="commission">
                                             <div class="input-group">
-                                                <input type="text" class="form-control border-light mb-2" style="padding: 25px 15px;" placeholder="Enter Delivery Date DD/MM/YYYY" id="search-input-5" name="delivery_date">
+                                                <input type="text" class="form-control border-light mb-2" style="padding: 25px 15px;" placeholder="Enter Assignment Date DD/MM/YYYY" id="search-input-5" name="assignment_date">
                                             </div>
                                             <div class="form-check mb-3">
                                                 <label class="form-check-label" for="checkbox-input-1" style="transform: scale(1.5); float: right; color: white; margin-left: 1px;">Is Complete?</label>
-                                                <input class="form-check-input" type="checkbox" id="checkbox-input-1" name="delivered" style="transform: scale(2.5); float: right; margin-left: 140px;">
+                                                <input class="form-check-input" type="checkbox" id="checkbox-input-1" name="assignment"
+                                                       style="transform: scale(2.5); float: right; margin-left: 140px;">
                                             </div>
                                         </div>
                                     </div>

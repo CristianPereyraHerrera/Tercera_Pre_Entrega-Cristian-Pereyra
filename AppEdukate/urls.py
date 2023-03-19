@@ -1,6 +1,6 @@
 from django.urls import path
 from AppEdukate.views import index, about, detail, feature, team, testimonial, contact, courses, students, teachers, \
-    search_courses, search_students, search_teachers, form_courses, form_students, form_teachers, form_delivery,\
+    search_courses, search_students, search_teachers, form_courses, form_students, form_teachers, form_assignment,\
     courses_avaibles
 
 
@@ -24,7 +24,7 @@ urlpatterns = [
     path('form_courses/', form_courses, name="AppEdukateFormCourses"),
     path('form_students/', form_students, name="AppEdukateFormStudents"),
     path('form_teachers/', form_teachers, name="AppEdukateFormTeachers"),
-    path('form_delivery/', form_delivery, name="AppEdukateFormDelivery"),
+    path('form_assignment/', form_assignment, name="AppEdukateFormAssignments"),
 
     path('courses_avaibles/', courses_avaibles, name="AppEdukateCoursesAvaibles"),
 ]

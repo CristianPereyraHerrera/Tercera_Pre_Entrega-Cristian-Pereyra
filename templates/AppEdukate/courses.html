@@ -47,7 +47,7 @@
                                     <a href="{% url 'AppEdukateFormStudents' %}" class="dropdown-menu-lg-left">New Student</a>
                                 </div>
                                 <div>
-                                    <a href="{% url 'AppEdukateFormDelivery' %}" class="dropdown-menu-lg-left">Delivery</a>
+                                    <a href="{% url 'AppEdukateFormAssignments' %}" class="dropdown-menu-lg-left">Assignment</a>
                                 </div>
                             </div>
                             <a class="nav-link dropdown-menu-left dropdown-toggle" style="color: black" data-toggle="dropdown">Teachers</a>
@@ -82,7 +82,7 @@
             <div class="container position-relative">
                 <div class="row justify-content-center">
                     <div class="col-xl-8">
-                        <h1 class="mb-3 text-black-50">Learn what you like! :D</h1>
+                        <h1 class="mb-3 text-black-50">Learn what you like!</h1>
                         <h2 class="mb-4 text-white" style="text-decoration: underline; text-decoration-color: white;">Courses Available:</h2>
                         {% if courses %}
                             {% for course in courses %}

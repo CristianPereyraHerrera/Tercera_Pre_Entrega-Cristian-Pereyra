@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from AppEdukate.models import Course, Student, Teacher, Delivery
+from AppEdukate.models import Course, Student, Teacher, Assignment
 from collections import defaultdict
-from AppEdukate.forms import Form_courses, Form_students, Form_teachers, Form_delivery
+from AppEdukate.forms import Form_courses, Form_students, Form_teachers, Form_assignment
 
 
 
@@ -43,10 +43,6 @@ def contact(request):
 ##########################################
 
 
-def searches(request):
-    return render(request, "AppEdukate/searches.html")
-
-
 def search_courses(request):
     return render(request, "AppEdukate/search_courses.html")
 
@@ -54,12 +50,16 @@ def search_courses(request):
 def courses(request):
     name = request.GET.get('name')
     commission = request.GET.get('commission')
+    min_length = 3
     if not name and not commission:
         answer = "You did not enter data"
         return HttpResponse(answer)
+    if name and len(name) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
     courses = Course.objects.all()
     if name:
-        courses = courses.filter(name=name)
+        courses = courses.filter(name__icontains=name)
     if commission:
         courses = courses.filter(commission=commission)
     if courses.exists():
@@ -77,16 +77,29 @@ def students(request):
     name = request.GET.get('name')
     last_name = request.GET.get('last_name')
     email = request.GET.get('email')
+    min_length = 3
     if not name and not last_name and not email:
         answer = "You did not enter data"
         return HttpResponse(answer)
+    if name and len(name) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
+    if last_name and len(last_name) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
+    if email and len(email) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
     students = Student.objects.all()
     if name:
-        students = students.filter(name=name)
+        name = name.lower()
+        students = students.filter(name__icontains=name)
     if last_name:
-        students = students.filter(last_name=last_name)
+        last_name = last_name.lower()
+        students = students.filter(last_name__icontains=last_name)
     if email:
-        students = students.filter(email=email)
+        email = email.lower()
+        students = students.filter(email__icontains=email)
     if students.exists():
         return render(request, "AppEdukate/results_search_students.html", {'students': students, 'last_name': last_name,
                                                                            'email': email})
@@ -104,18 +117,35 @@ def teachers(request):
     last_name = request.GET.get('last_name')
     email = request.GET.get('email')
     profession = request.GET.get('profession')
+    min_length = 3
     if not name and not last_name and not email and not profession:
         answer = "You did not enter data"
         return HttpResponse(answer)
+    if name and len(name) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
+    if last_name and len(last_name) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
+    if email and len(email) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
+    if profession and len(profession) < min_length:
+        answer = f"Enter at least {min_length} characters"
+        return HttpResponse(answer)
     teachers = Teacher.objects.all()
     if name:
-        teachers = teachers.filter(name=name)
+        name = name.lower()
+        teachers = teachers.filter(name__icontains=name)
     if last_name:
-        teachers = teachers.filter(last_name=last_name)
+        last_name = last_name.lower()
+        teachers = teachers.filter(last_name__icontains=last_name)
     if email:
-        teachers = teachers.filter(email=email)
+        email = email.lower()
+        teachers = teachers.filter(email__icontains=email)
     if profession:
-        teachers = teachers.filter(profession=profession)
+        profession = profession.lower()
+        teachers = teachers.filter(profession__icontains=profession)
     if teachers.exists():
         return render(request, "AppEdukate/results_search_teachers.html", {'teachers': teachers, 'last_name': last_name,
                                                                            'email': email, 'profession': profession})
@@ -131,13 +161,15 @@ def teachers(request):
 
 def form_courses(request):
     if request.method == 'POST':
+        min_length = 3
         my_form = Form_courses(request.POST)
-        print(my_form)
-        if my_form.is_valid:
+        if my_form.is_valid() and len(my_form.cleaned_data['course']) > min_length:
             information = my_form.cleaned_data
-            course = Course(name=information['course'], commission=int(information['commission']))
+            course = Course(name=information['course'].lower(), commission=int(information['commission']))
             course.save()
             return render(request, "AppEdukate/save_form_courses.html")
+        else:
+            my_form.add_error('course', f'The course name must have more than {min_length} characters')
     else:
         my_form = Form_courses()
     return render(request, "AppEdukate/form_courses.html", {"my_form": my_form})
@@ -145,13 +177,18 @@ def form_courses(request):
 
 def form_students(request):
     if request.method == 'POST':
+        min_length = 3
         my_form = Form_students(request.POST)
-        print(my_form)
-        if my_form.is_valid:
+        if my_form.is_valid() and len(my_form.cleaned_data['name']) > min_length and len(my_form.cleaned_data['last_name']) > min_length:
             information = my_form.cleaned_data
-            student = Student(name=information['name'], last_name=information['last_name'], email=information['email'])
+            student = Student(name=information['name'].lower(), last_name=information['last_name'].lower(), email=information['email'].lower())
             student.save()
             return render(request, "AppEdukate/save_form_students.html")
+        else:
+            if len(my_form.cleaned_data['name']) < min_length:
+                my_form.add_error('name', f'The name must have more than {min_length} characters')
+            if len(my_form.cleaned_data['last_name']) < min_length:
+                my_form.add_error('last_name', f'The last name must have more than {min_length} characters')
     else:
         my_form = Form_students()
     return render(request, "AppEdukate/form_students.html", {"my_form": my_form})
@@ -159,33 +196,47 @@ def form_students(request):
 
 def form_teachers(request):
     if request.method == 'POST':
+        min_length = 3
         my_form = Form_teachers(request.POST)
-        print(my_form)
-        if my_form.is_valid:
+        if my_form.is_valid() and len(my_form.cleaned_data['name']) > min_length and len(my_form.cleaned_data['last_name']) > min_length and len(my_form.cleaned_data['profession']) > min_length:
             information = my_form.cleaned_data
-            teacher = Teacher(name=information['name'], last_name=information['last_name'], email=information['email'],
-                              profession=information['profession'])
+            teacher = Teacher(name=information['name'].lower(), last_name=information['last_name'].lower(), email=information['email'].lower(),
+                              profession=information['profession'].lower())
             teacher.save()
             return render(request, "AppEdukate/save_form_teachers.html")
+        else:
+            if len(my_form.cleaned_data['name']) < min_length:
+                my_form.add_error('name', f'The name must have more than {min_length} characters')
+            if len(my_form.cleaned_data['last_name']) < min_length:
+                my_form.add_error('last_name', f'The last name must have more than {min_length} characters')
+            if len(my_form.cleaned_data['email']) < min_length:
+                my_form.add_error('email', f'The email must have more than {min_length} characters')
     else:
-        my_form = Form_students()
+        my_form = Form_teachers()
     return render(request, "AppEdukate/form_teachers.html", {"my_form": my_form})
 
 
-def form_delivery(request):
+def form_assignment(request):
     if request.method == 'POST':
-        my_form = Form_delivery(request.POST)
-        print(my_form)
-        if my_form.is_valid:
+        min_length = 3
+        my_form = Form_assignment(request.POST)
+        if my_form.is_valid() and len(my_form.cleaned_data['name']) > min_length and len(my_form.cleaned_data['last_name']) > min_length and len(my_form.cleaned_data['course']) > min_length:
             information = my_form.cleaned_data
-            deliveries = Delivery(name=information['name'], last_name=information['last_name'],
-                                  course=information['course'], commission=int(information['commission']),
-                                  delivery_date=information['delivery_date'], delivered=bool(information['delivered']))
-            deliveries.save()
-            return render(request, "AppEdukate/save_form_delivery.html")
+            assignment = Assignment(name=information['name'].lower(), last_name=information['last_name'].lower(),
+                                     course=information['course'].lower(), commission=int(information['commission']),
+                                     assignment_date=information['assignment_date'], assignment=bool(information['assignment']))
+            assignment.save()
+            return render(request, "AppEdukate/save_form_assignment.html")
+        else:
+            if len(my_form.cleaned_data['name']) < min_length:
+                my_form.add_error('name', f'The name must have more than {min_length} characters')
+            if len(my_form.cleaned_data['last_name']) < min_length:
+                my_form.add_error('last_name', f'The last name must have more than {min_length} characters')
+            if len(my_form.cleaned_data['course']) < min_length:
+                my_form.add_error('course', f'The course must have more than {min_length} characters')
     else:
-        my_form = Form_delivery()
-    return render(request, "AppEdukate/form_delivery.html", {"my_form": my_form})
+        my_form = Form_assignment()
+    return render(request, "AppEdukate/form_assignment.html", {"my_form": my_form})
 
 
 ##########################################
@@ -201,7 +252,7 @@ def courses_avaibles(request):
     unique_courses = []
     for course_name, count in course_counts.items():
         unique_courses.append({
-            "name": course_name,
+            "name": course_name.title(),
             "count": count
         })
     context = {
