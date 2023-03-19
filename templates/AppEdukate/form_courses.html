@@ -36,11 +36,29 @@
                     </div>
                     <a href="{% url 'AppEdukateContact' %}" class="nav-item nav-link">Contact</a>
                 </div>
-                <div class="nav-item dropdown">
-                    <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block nav-link dropdown-toggle" data-toggle="dropdown">Join Us</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="{% url 'AppEdukateFormStudents' %}" class="dropdown-item">Students</a>
-                        <a href="{% url 'AppEdukateFormTeachers' %}" class="dropdown-item">Teachers</a>
+                <div class="nav-link dropdown">
+                    <a class="btn btn-primary py-2 px-4 d-none d-lg-block nav-link dropdown-toggle" data-toggle="dropdown">Join Us</a>
+                    <div class="nav-item dropdown">
+                        <div class="dropdown-menu text-center m-0">
+                            <a class="nav-link dropdown-menu-left dropdown-toggle" style="color: black" data-toggle="dropdown">Students</a>
+                            <div class="nav-item m-0 dropdown">
+                                <div>
+                                    <a href="{% url 'AppEdukateFormStudents' %}" class="dropdown-menu-lg-left">New Student</a>
+                                </div>
+                                <div>
+                                    <a href="{% url 'AppEdukateFormDelivery' %}" class="dropdown-menu-lg-left">Delivery</a>
+                                </div>
+                            </div>
+                            <a class="nav-link dropdown-menu-left dropdown-toggle" style="color: black" data-toggle="dropdown">Teachers</a>
+                            <div class="nav-item m-0 dropdown">
+                                <div>
+                                    <a href="{% url 'AppEdukateFormTeachers' %}" class="dropdown-item-lg-left">New Teachers</a>
+                                </div>
+                                <div>
+                                    <a href="{% url 'AppEdukateFormCourses' %}" class="dropdown-item-lg-left">New Courses</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,15 +70,32 @@
 {% block Header %}
     <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
         <div class="container text-center py-5">
-            <h1 class="text-white display-1">#</h1>
+            <h1 class="text-white display-1">Create Course</h1>
             <div class="d-inline-flex text-white mb-5">
                 <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'AppEdukateIndex' %}">Home</a></p>
                 <i class="fa fa-angle-double-right pt-1 px-3"></i>
-                <p class="m-0 text-uppercase">#</p>
-                <div>
-
-                </div>
+                <p class="m-0 text-uppercase">Create Course</p>
             </div>
+            {% block successful_creation %}
+                {% if my_form.errors %}
+                    <p style="color:#940f29;">Incorrect Data, Check Again</p>
+                {% endif %}
+                <form action="{% url 'AppEdukateFormCourses' %}" method="POST">{% csrf_token %}
+                    <div class="mx-auto mb-5" style="width: 100%; max-width: 60%;">
+                        <div class="mx-auto mb-5 d-flex flex-column align-items-center" style="width: 100%; max-width: 60%;">
+                            <div class="input-group">
+                                <input type="text" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Course" id="search-input-1" name="course">
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Commission" id="search-input-2" name="commission">
+                                </div>
+                            </div>
+                            <div class="input-group-append text-center">
+                                <button type="submit" class="btn btn-secondary px-4 px-lg-5">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

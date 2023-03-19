@@ -29,7 +29,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Search</a>
                         <div class="dropdown-menu m-0">
-                            <a href="{% url 'AppEdukateSearchCourses' %}" class="dropdown-item active">Courses</a>
+                            <a href="{% url 'AppEdukateSearchCourses' %}" class="dropdown-item">Courses</a>
                             <a href="{% url 'AppEdukateSearchStudents' %}" class="dropdown-item">Students</a>
                             <a href="{% url 'AppEdukateSearchTeachers' %}" class="dropdown-item">Teachers</a>
                         </div>
@@ -70,27 +70,45 @@
 {% block Header %}
     <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
         <div class="container text-center py-5">
-            <h1 class="text-white display-1">Search Courses</h1>
+            <h1 class="text-white display-1">Submit Deliverable</h1>
             <div class="d-inline-flex text-white mb-5">
                 <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'AppEdukateIndex' %}">Home</a></p>
                 <i class="fa fa-angle-double-right pt-1 px-3"></i>
-                <p class="m-0 text-uppercase">Search Courses</p>
-            </div>
-            <form action="{% url 'AppEdukateCourses' %}" method="GET">
-                <div class="mx-auto mb-5" style="width: 100%; max-width: 60%;">
-                    <div class="mx-auto mb-5 d-flex flex-column align-items-center" style="width: 100%; max-width: 60%;">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Course" id="search-input-1" name="name">
+                <p class="m-0 text-uppercase">Submit Deliverable</p>
+                </div>
+            {% block successful_uploaded %}
+                {% if my_form.errors %}
+                    <p style="color:#940f29;">Incorrect Data, Check Again</p>
+                {% endif %}
+                <form action="{% url 'AppEdukateFormDelivery' %}" method="POST">{% csrf_token %}
+                    <div class="mx-auto mb-5" style="width: 100%; max-width: 60%;">
+                        <div class="mx-auto mb-5 d-flex flex-column align-items-center" style="width: 100%; max-width: 60%;">
                             <div class="input-group">
-                                <input type="number" class="form-control border-light mb-2" style="padding: 25px 15px;" placeholder="Enter Commission" id="search-input-2" name="commission">
+                                <input type="text" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Name" id="search-input-1" name="name">
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Last Name" id="search-input-2" name="last_name">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Course" id="search-input-3" name="course">
+                                        <div class="input-group">
+                                            <input type="number" class="form-control border-light mb-1" style="padding: 25px 15px;" placeholder="Enter Commission" id="search-input-4" name="commission">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control border-light mb-2" style="padding: 25px 15px;" placeholder="Enter Delivery Date DD/MM/YYYY" id="search-input-5" name="delivery_date">
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <label class="form-check-label" for="checkbox-input-1" style="transform: scale(1.5); float: right; color: white; margin-left: 1px;">Is Complete?</label>
+                                                <input class="form-check-input" type="checkbox" id="checkbox-input-1" name="delivered" style="transform: scale(2.5); float: right; margin-left: 140px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group-append text-center">
+                                <button type="submit" class="btn btn-secondary px-4 px-lg-5">Submit</button>
                             </div>
                         </div>
-                        <div class="input-group-append text-center">
-                            <button type="submit" class="btn btn-secondary px-4 px-lg-5">Search</button>
-                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            {% endblock %}
         </div>
     </div>
 {% endblock %}
